@@ -1,0 +1,36 @@
+{
+    "name": "Danmaku",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "description": "Some desc",
+    "icons": {
+        "16": "icon.jpg",
+        "48": "icon.jpg",
+        "128": "icon.jpg"
+    },
+    "browser_action": {
+        "default_title": "Danmaku",
+        "default_icon": "icon.jpg",
+        "default_popup": "html/index.html"
+    },
+    "background": {
+        "scripts": ["js/background.js"]
+    },
+    "content_scripts": [{
+        "matches": ["https://live.bilibili.com/*"],
+        "js": ["js/jq.js", "js/monitor.js"],
+        "run_at": "document_start"
+    }],
+    "permissions": [
+        "tabs",
+        "notifications",
+        "webRequest",
+        "webRequestBlocking",
+        "storage",
+        "cookies",
+        "http://*/*", 
+        "https://*/*"
+    ],
+    "content_security_policy": "script-src 'self'; object-src 'self'"
+}
+
