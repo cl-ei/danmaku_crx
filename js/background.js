@@ -7,7 +7,7 @@ return(!i||i!==r&&!b.contains(r,i))&&(e.type=o.origType,n=o.handler.apply(this,a
 
 function accept_prize(prize_url){
     console.log("prize_url: ", prize_url);
-    chrome.tabs.create({index: 0, url: prize_url});
+    chrome.tabs.create({index: 0, url: prize_url, selected: false});
 }
 function recored_prize_info(prize_rec_info){
     console.log(prize_rec_info);
@@ -33,7 +33,22 @@ chrome.extension.onRequest.addListener(
         var prize_url = request.prize_url;
         if(prize_url){accept_prize(prize_url)};
 
-        var prize_rec_info = request.prize_rec_info;
-        if(prize_rec_info){recored_prize_info(prize_rec_info)};
+        // var prize_rec_info = request.prize_rec_info;
+        // if(prize_rec_info){recored_prize_info(prize_rec_info)};
     }
 );
+
+window.csrfToken = "";
+chrome.cookies.getAll({
+	url: "https://bilibili.com",
+}, function(c){
+	for (var i = 0; i < c.length; i++){
+		console.log(c[i].name, c[i].name == "bili_jct", c[i].value);
+		if(c[i].name == "bili_jct"){
+			window.csrfToken = c[i].value;
+			break;
+		}
+	}
+})
+console.log("window.csrfToken: ", window.csrfToken)
+setTimeout(function(){console.log("window.csrfToken: ", window.csrfToken)}, 1000)
